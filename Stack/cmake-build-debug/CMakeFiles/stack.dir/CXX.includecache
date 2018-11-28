@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/c/Users/Chingfung Yung/Documents/Stack/main.cpp
+iostream
+-
+stack.h
+/cygdrive/c/Users/Chingfung Yung/Documents/Stack/stack.h
+
+/cygdrive/c/Users/Chingfung Yung/Documents/Stack/stack.h
+iostream
+-
+
