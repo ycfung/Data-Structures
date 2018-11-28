@@ -1,3 +1,0 @@
-/mnt/d/OneDrive/Projects/LinkedList/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/mnt/d/OneDrive/Projects/LinkedList/cmake-build-debug/CMakeFiles/LinkedList.dir
-/mnt/d/OneDrive/Projects/LinkedList/cmake-build-debug/CMakeFiles/edit_cache.dir
