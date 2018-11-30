@@ -21,7 +21,7 @@ private:
         T element;
         Qnode *next;
 
-        explicit Qnode(T e = 0) : element(e), next(NULL)
+        explicit Qnode(T e = 0) : element(e), next(nullptr)
         {}
     };
 

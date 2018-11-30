@@ -94,7 +94,7 @@ bool List<T>::deleteCurrent() //pos is the position of the data to delete, start
 
 
 template<typename T>
-List<T>::List() //creates list with start and end as NULL
+List<T>::List() //creates list with start and end as nullptr
 {
     startPtr = nullptr;
     endPtr = nullptr;

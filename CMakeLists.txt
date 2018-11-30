@@ -3,4 +3,4 @@ project(Data_Structures)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Data_Structures main.cpp List.h ListNode.h myio.h Stack.h Queue.h)
+add_executable(Data_Structures main.cpp List.h ListNode.h myio.h Stack.h Queue.h BinaryTree.h)
