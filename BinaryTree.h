@@ -5,168 +5,134 @@
 #ifndef DATA_STRUCTURES_BINARYTREE_H
 #define DATA_STRUCTURES_BINARYTREE_H
 
+
 #include <iostream>
-#include <sstream>
 #include <queue>
+#include <sstream>
+#include <string>
 
-
-class BinaryTree;
+using namespace std;
 
 class TreeNode
 {
-private:
-    TreeNode *leftchild;
-    TreeNode *rightchild;
-    TreeNode *parent;
-    char data;
-public:
-    TreeNode() : leftchild(nullptr), rightchild(nullptr), parent(nullptr), data('x')
-    {};
-
-    explicit TreeNode(char s) : leftchild(nullptr), rightchild(nullptr), parent(nullptr), data(s)
-    {};
-
     friend class BinaryTree;
+
+private:
+
+    TreeNode *leftchild;
+
+    TreeNode *rightchild;
+
+    char data;
+
+public:
+
+    TreeNode() : leftchild(nullptr), rightchild(nullptr), data('#')
+    {};
+
+    explicit TreeNode(char s) : leftchild(nullptr), rightchild(nullptr), data(s)
+    {};
+
 };
 
 class BinaryTree
 {
-private:
-    TreeNode *root;
 public:
+    TreeNode *root;
+
     BinaryTree() : root(nullptr)
     {};
 
-    explicit BinaryTree(const char *str);
+    explicit BinaryTree(const char *str); //Level order construct
 
-    void LevelorderConstruct(std::stringstream &ss);
+    ~BinaryTree()
+    { DelNode(root); }
 
-    void InsertLevelOrder(char data);
+    bool DelNode(TreeNode *node);
 
-    TreeNode *leftmost(TreeNode *current);
+    void PreOrder(TreeNode *current, string &result);
 
-    TreeNode *InorderSuccessor(TreeNode *current);
+    void InOrder(TreeNode *current, string &result);
 
-    void Inorder_by_parent();
+    void PostOrder(TreeNode *current, string &result);
+
+
 };
+
 
 BinaryTree::BinaryTree(const char *str)
 {
-    std::stringstream ss;
-    ss << str;
-
     root = new TreeNode;
+    queue<TreeNode *> q;
+    TreeNode *current = root;
+    stringstream ss;
+    ss << str;
+    char temp;
     ss >> root->data;
-
-    LevelorderConstruct(ss);
-}
-
-void BinaryTree::LevelorderConstruct(std::stringstream &ss)
-{
-
-    std::queue<TreeNode *> q;         // create a queue to handle level-roder rule
-    TreeNode *current = root;        // point *current to root
-    char data = 'x';                 // initialize data as 'x'
-
-    while (ss >> data)
+    while (ss >> temp)
     {
-        if (data >= 65 && data <= 90)
+        if (temp >= 65 && temp <= 90)
         {
-            auto *new_node = new TreeNode(data);  // call constructor TreeNode(char s)
-            new_node->parent = current;
+            auto *new_node = new TreeNode(temp);  // call constructor TreeNode(char s)
             current->leftchild = new_node;
             q.push(new_node);
         }
-        if (!(ss >> data))
-        {
+
+        if (!(ss >> temp))
             break;
-        }
-        if (data >= 65 && data <= 90)
+
+        if (temp >= 65 && temp <= 90)
         {
             auto *new_node = new TreeNode;        // call constructor TreeNode()
-            new_node->parent = current;
             current->rightchild = new_node;
-            new_node->data = data;                    // assign data to new_node
+            new_node->data = temp;                    // assign data to new_node
             q.push(new_node);
-        }
-        current = q.front();                          // 從queue中更新current
-        q.pop();                                      // 更新queue
-    }
-}
-
-void BinaryTree::InsertLevelOrder(char data)
-{
-
-    std::queue<TreeNode *> q;
-    TreeNode *current = root;
-
-    while (current)
-    {
-        if (current->leftchild != nullptr)
-        {
-            q.push(current->leftchild);
-        }
-        else
-        {
-            auto *new_node = new TreeNode(data);
-            new_node->parent = current;
-            current->leftchild = new_node;
-            break;
-        }
-        if (current->rightchild != nullptr)
-        {
-            q.push(current->rightchild);
-        }
-        else
-        {
-            auto *new_node = new TreeNode(data);
-            new_node->parent = current;
-            current->rightchild = new_node;
-            break;
         }
         current = q.front();
         q.pop();
     }
 }
 
-TreeNode *BinaryTree::leftmost(TreeNode *current)
+bool BinaryTree::DelNode(TreeNode *node)
 {
-    while (current->leftchild != nullptr)
+    if (node == nullptr)
+        return true;
+    if (DelNode(node->leftchild) && DelNode(node->rightchild))
     {
-        current = current->leftchild;
+        delete (node);
+        return true;
     }
-    return current;
+    else return false;
 }
 
-TreeNode *BinaryTree::InorderSuccessor(TreeNode *current)
+void BinaryTree::PreOrder(TreeNode *current, string &result)
 {
-    if (current->rightchild != nullptr)
+    if (current)
     {
-        return leftmost(current->rightchild);
-    }
-
-
-    TreeNode *successor = current->parent;
-    while (successor != nullptr && current == successor->rightchild)
-    {
-        current = successor;
-        successor = successor->parent;
-    }
-    return successor;
-}
-
-void BinaryTree::Inorder_by_parent()
-{
-    auto *current = new TreeNode;
-    current = leftmost(root);
-
-    while (current)
-    {
-        std::cout << current->data << " ";
-        current = InorderSuccessor(current);
+        result = result + current->data;
+        PreOrder(current->leftchild, result);
+        PreOrder(current->rightchild, result);
     }
 }
 
+void BinaryTree::InOrder(TreeNode *current, string &result)
+{
+    if (current)
+    {
+        InOrder(current->leftchild, result);
+        result = result + current->data;
+        InOrder(current->rightchild, result);
+    }
+}
+
+void BinaryTree::PostOrder(TreeNode *current, string &result)
+{
+    if (current)
+    {
+        PostOrder(current->leftchild, result);
+        PostOrder(current->rightchild, result);
+        result = result + current->data;
+    }
+}
 
 #endif //DATA_STRUCTURES_BINARYTREE_H
-
