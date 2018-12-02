@@ -9,3 +9,9 @@ Here is what this repo includes so far:
 - Binary Tree
 - Tree
 - Forest
+
+### Requirements
+
+- CMake v3.10+
+- A C++ compiler
+- make

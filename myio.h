@@ -2,6 +2,7 @@
 #define LINKEDLIST_MYIO_H
 
 #include <iostream>
+
 using namespace std;
 
 
@@ -39,4 +40,8 @@ int input_int()
         else return data;
     }
 }
+
+
+
+
 #endif //LINKEDLIST_MYIO_H
