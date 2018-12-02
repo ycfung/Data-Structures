@@ -13,7 +13,7 @@
 using namespace std;
 
 
-class Forest :
+class Forest
 {
 
 private:
@@ -22,28 +22,44 @@ private:
 
 public:
 
-    Forest() : root(nullptr)
-    {};
+    TreeNode *getRoot()
+    { return this->root; }
+
+    Forest()
+    { root = new TreeNode('#'); };
+
+    ~Forest()
+    { DelNode(root); }
 
     bool AddTree(string &str);
 
+    friend void PreOrder_recursive(TreeNode *current, string &result);
+
+    friend void PostOrder_recursive(TreeNode *current, string &result);
+
+    friend void LevelOrder(TreeNode *current, string &result);
+
+    friend void PreOrder_iterative(TreeNode *current, string &result);
+
+    friend void PostOrder_iterative(TreeNode *current, string &result);
+
 };
+
 
 bool Forest::AddTree(string &str)
 {
 
-    Tree *tree = new Tree();
-    TreeNode *ptr = tree->Create(str);
-    TreeNode *temp = root;
+    Tree tree;
+    TreeNode *ptr = tree.Create(str);
+    TreeNode *temp = root->firstChild;
 
-    if (this->root == nullptr)
+    if (root->firstChild == nullptr)
     {
-        root = new TreeNode();
         root->firstChild = ptr;
         return true;
     }
 
-    else if (ptr != nullptr)
+    else
     {
         while (temp->nextBrother != nullptr)
             temp = temp->nextBrother;
@@ -51,7 +67,6 @@ bool Forest::AddTree(string &str)
         return true;
     }
 
-    else return false;
 }
 
 
