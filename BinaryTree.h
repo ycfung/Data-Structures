@@ -13,32 +13,40 @@
 
 using namespace std;
 
-class TreeNode
+
+class BinaryTreeNode
 {
+
     friend class BinaryTree;
 
 private:
 
-    TreeNode *leftchild;
+    BinaryTreeNode *leftchild;
 
-    TreeNode *rightchild;
+    BinaryTreeNode *rightchild;
 
     char data;
 
 public:
 
-    TreeNode() : leftchild(nullptr), rightchild(nullptr), data('#')
+    char getData()
+    { return data; }
+
+    BinaryTreeNode() : leftchild(nullptr), rightchild(nullptr), data('#')
     {};
 
-    explicit TreeNode(char s) : leftchild(nullptr), rightchild(nullptr), data(s)
+    explicit BinaryTreeNode(char s) : leftchild(nullptr), rightchild(nullptr), data(s)
     {};
 
 };
 
+
 class BinaryTree
 {
+
 public:
-    TreeNode *root;
+
+    BinaryTreeNode *root;
 
     BinaryTree() : root(nullptr)
     {};
@@ -48,32 +56,43 @@ public:
     ~BinaryTree()
     { DelNode(root); }
 
-    bool DelNode(TreeNode *node);
+    bool DelNode(BinaryTreeNode *node);
 
-    void PreOrder(TreeNode *current, string &result);
+    void PreOrder(BinaryTreeNode *current, string &result);
 
-    void InOrder(TreeNode *current, string &result);
+    void InOrder(BinaryTreeNode *current, string &result);
 
-    void PostOrder(TreeNode *current, string &result);
+    void PostOrder(BinaryTreeNode *current, string &result);
 
+    BinaryTreeNode *FindFather(BinaryTreeNode *node, BinaryTreeNode *current);
+    //node is usually the root of tree, except when search in a subtree
+
+    BinaryTreeNode *Search(BinaryTreeNode *node, const char &value);
 
 };
 
 
 BinaryTree::BinaryTree(const char *str)
 {
-    root = new TreeNode;
-    queue<TreeNode *> q;
-    TreeNode *current = root;
+    root = new BinaryTreeNode;
+
+    queue<BinaryTreeNode *> q;
+
+    BinaryTreeNode *current = root;
+
     stringstream ss;
+
     ss << str;
+
     char temp;
+
     ss >> root->data;
+
     while (ss >> temp)
     {
         if (temp >= 65 && temp <= 90)
         {
-            auto *new_node = new TreeNode(temp);  // call constructor TreeNode(char s)
+            auto *new_node = new BinaryTreeNode(temp);  // call constructor BinaryTreeNode(char s)
             current->leftchild = new_node;
             q.push(new_node);
         }
@@ -83,7 +102,7 @@ BinaryTree::BinaryTree(const char *str)
 
         if (temp >= 65 && temp <= 90)
         {
-            auto *new_node = new TreeNode;        // call constructor TreeNode()
+            auto *new_node = new BinaryTreeNode;        // call constructor BinaryTreeNode()
             current->rightchild = new_node;
             new_node->data = temp;                    // assign data to new_node
             q.push(new_node);
@@ -91,48 +110,95 @@ BinaryTree::BinaryTree(const char *str)
         current = q.front();
         q.pop();
     }
+
 }
 
-bool BinaryTree::DelNode(TreeNode *node)
+
+bool BinaryTree::DelNode(BinaryTreeNode *node)
 {
     if (node == nullptr)
         return true;
+
     if (DelNode(node->leftchild) && DelNode(node->rightchild))
     {
         delete (node);
         return true;
     }
+
     else return false;
 }
 
-void BinaryTree::PreOrder(TreeNode *current, string &result)
+
+void BinaryTree::PreOrder(BinaryTreeNode *current, string &result)
 {
+
     if (current)
     {
-        result = result + current->data;
+        result += current->data;
         PreOrder(current->leftchild, result);
         PreOrder(current->rightchild, result);
     }
 }
 
-void BinaryTree::InOrder(TreeNode *current, string &result)
+
+void BinaryTree::InOrder(BinaryTreeNode *current, string &result)
 {
     if (current)
     {
         InOrder(current->leftchild, result);
-        result = result + current->data;
+        result += current->data;
         InOrder(current->rightchild, result);
     }
 }
 
-void BinaryTree::PostOrder(TreeNode *current, string &result)
+
+void BinaryTree::PostOrder(BinaryTreeNode *current, string &result)
 {
     if (current)
     {
         PostOrder(current->leftchild, result);
         PostOrder(current->rightchild, result);
-        result = result + current->data;
+        result += current->data;
     }
+
+}
+
+
+BinaryTreeNode *BinaryTree::FindFather(BinaryTreeNode *node, BinaryTreeNode *current)
+{
+
+    BinaryTreeNode *ptr = nullptr;
+
+    if (node == nullptr or current == nullptr)
+        return nullptr;
+
+    if (node->leftchild == current or node->rightchild == current)
+        return node;
+
+    if ((ptr = FindFather(node->leftchild, current)) != nullptr)
+        return ptr;
+
+    else return FindFather(node->rightchild, current);
+
+}
+
+
+BinaryTreeNode *BinaryTree::Search(BinaryTreeNode *node, const char &value)
+{
+
+    BinaryTreeNode *p = nullptr;
+
+    if (node == nullptr)
+        return nullptr;
+
+    if (node->data == value)
+        return node;
+
+    if ((p = Search(node->leftchild, value)) != nullptr)
+        return p;
+
+    else return Search(node->rightchild, value);
+
 }
 
 #endif //DATA_STRUCTURES_BINARYTREE_H

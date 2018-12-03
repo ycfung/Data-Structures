@@ -8,35 +8,14 @@
 #include <iostream>
 #include <string>
 #include <queue>
+#include <stack>
+#include "TreeNode.h"
 
 using namespace std;
 
-class TreeNode
-{
-
-    friend class Tree;
-
-public:
-
-    char data;
-
-    TreeNode *firstChild;
-
-    TreeNode *nextBrother;
-
-    char getData()
-    { return data; }
-
-    TreeNode() : firstChild(nullptr), nextBrother(nullptr), data('#')
-    {};
-
-    explicit TreeNode(const char s) : firstChild(nullptr), nextBrother(nullptr), data(s)
-    {};
-
-};
-
 class Tree
 {
+
 
 public:
 
@@ -47,27 +26,26 @@ public:
 
     explicit Tree(const char &str);
 
-    bool AddChild(const char &str);
 
-    bool AddBrother(const char &str);
-
-    bool DelNode(TreeNode *node);
+    friend bool DelNode(TreeNode *node);
 
     ~Tree()
     { DelNode(root); }
 
-    void PreOrder_recursive(TreeNode *current, string &result);
+    friend void PreOrder_recursive(TreeNode *current, string &result);
 
-    void PostOrder_recursive(TreeNode *current, string &result);
+    friend void PostOrder_recursive(TreeNode *current, string &result);
 
-    void LevelOrder(TreeNode *current, string &result)
+    friend void LevelOrder(TreeNode *current, string &result);
 
-    void PreOrder_iterative(TreeNode *current, string &result);
+    friend void PreOrder_iterative(TreeNode *current, string &result);
 
-    void PostOrder_iterative(TreeNode *current, string &result);
+    friend void PostOrder_iterative(TreeNode *current, string &result);
+
+    TreeNode *Create(string &str);
+
 
 };
-
 
 
 Tree::Tree(const char &str)
@@ -76,45 +54,47 @@ Tree::Tree(const char &str)
 }
 
 
-bool Tree::AddChild(const char &str)
+TreeNode *Tree::Create(string &str)
 {
 
-    TreeNode *ptr = root;
+    TreeNode *t, *t1, *t2;
+    char m = str.front();
+    str.erase(0, 1);
 
-    while (ptr->firstChild != nullptr)
-        ptr = ptr->firstChild;
-
-    ptr->firstChild = new TreeNode(str);
-
-    return ptr->data == str;
-}
-
-bool Tree::AddBrother(const char &str)
-{
-
-    TreeNode *ptr = root;
-
-    while (ptr->firstChild != nullptr)
-        ptr = ptr->firstChild;
-
-    while (ptr->nextBrother != nullptr)
-        ptr = ptr->nextBrother;
-
-    ptr->nextBrother = new TreeNode(str);
-
-    return ptr->data == str;
-
-}
-
-bool Tree::DelNode(TreeNode *node)
-{
-
-    if (node == nullptr)
-        return true;
-
-    if (DelNode(node->firstChild) or DelNode(node->nextBrother))
+    if (m == '#')
     {
-        delete (node);
+        t = nullptr;
+        return t;
+    }
+
+    else
+    {
+
+        if ((int) m == 0)
+            return nullptr;
+
+        if ((t = new TreeNode(m)) != nullptr)
+        {
+            t->data = m;
+            t1 = Create(str);
+            t->firstChild = t1;
+            t2 = Create(str);
+            t->nextBrother = t2;
+            return t;
+        }
+
+        else return nullptr;
+    }
+
+}
+
+/*
+bool TreeNode::AddChild(const char &str)
+{
+
+    if (this->firstChild == nullptr)
+    {
+        this->firstChild = new TreeNode(str);
         return true;
     }
 
@@ -122,15 +102,18 @@ bool Tree::DelNode(TreeNode *node)
 
 }
 
-void Tree::PreOrder_recursive(TreeNode *current, string &result)
+bool TreeNode::AddBrother(const char &str)
 {
 
-    result.clear();
-    if(current == nullptr)
-        return;
+    if (this->nextBrother == nullptr)
+    {
+        this->nextBrother = new TreeNode(str);
+        return true;
+    }
 
+    else return false;
 
 }
-
+*/
 
 #endif //DATA_STRUCTURES_TREE_H
