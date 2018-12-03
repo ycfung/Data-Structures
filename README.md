@@ -9,6 +9,8 @@ Here is what this repo includes so far:
 - Binary Tree
 - Tree
 - Forest
+- Quick Sort
+- Selection Sort
 
 ### Requirements
 

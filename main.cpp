@@ -4,6 +4,7 @@
 #include "Forest.h"
 #include "TreeNode.h"
 #include "BinaryTree.h"
+#include "Sorting.h"
 
 using namespace std;
 
@@ -87,4 +88,11 @@ int main()
 
     return 0;
 */
+
+
+    int arr[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    QuickSort(arr, 0, 9);
+    for (auto ptr:arr)
+        cout << ptr << ' ' << endl;
+
 }
