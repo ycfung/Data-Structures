@@ -15,11 +15,14 @@ using namespace std;
 
 class Tree
 {
+private:
 
+    TreeNode *root;
 
 public:
 
-    TreeNode *root;
+    TreeNode *getRoot()
+    { return this->root; }
 
     Tree() : root(nullptr)
     {};
@@ -69,7 +72,6 @@ TreeNode *Tree::Create(string &str)
 
     else
     {
-
         if ((int) m == 0)
             return nullptr;
 
@@ -80,6 +82,7 @@ TreeNode *Tree::Create(string &str)
             t->firstChild = t1;
             t2 = Create(str);
             t->nextBrother = t2;
+            this->root = t;
             return t;
         }
 

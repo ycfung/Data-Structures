@@ -4,6 +4,7 @@
 
 #ifndef DATA_STRUCTURES_TREENODE_H
 #define DATA_STRUCTURES_TREENODE_H
+
 #include <iostream>
 #include <string>
 #include <queue>
@@ -51,15 +52,9 @@ void PreOrder_recursive(TreeNode *current, string &result)
     if (current != nullptr)
     {
         result += current->data;
-        TreeNode *ptr = nullptr;
-        ptr = current->firstChild;
-        while (ptr != nullptr)
-        {
-            PreOrder_recursive(ptr, result);
-            ptr = ptr->nextBrother;
-        }
+        PreOrder_recursive(current->firstChild, result);
+        PreOrder_recursive(current->nextBrother, result);
     }
-
 
 
 }
@@ -67,17 +62,11 @@ void PreOrder_recursive(TreeNode *current, string &result)
 void PostOrder_recursive(TreeNode *current, string &result)
 {
 
-
     if (current != nullptr)
     {
-        TreeNode *ptr = nullptr;
-        ptr = current->firstChild;
-        while (ptr != nullptr)
-        {
-            PostOrder_recursive(ptr, result);
-            ptr = ptr->nextBrother;
-        }
+        PostOrder_recursive(current->firstChild, result);
         result += current->data;
+        PostOrder_recursive(current->nextBrother, result);
     }
 
 

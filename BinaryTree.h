@@ -44,9 +44,14 @@ public:
 class BinaryTree
 {
 
-public:
+private:
 
     BinaryTreeNode *root;
+
+public:
+
+    BinaryTreeNode *getRoot()
+    { return this->root; }
 
     BinaryTree() : root(nullptr)
     {};
