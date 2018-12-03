@@ -49,8 +49,8 @@ public:
 bool Forest::AddTree(string &str)
 {
 
-    Tree tree;
-    TreeNode *ptr = tree.Create(str);
+    auto *tree = new Tree();
+    TreeNode *ptr = tree->Create(str);
     TreeNode *temp = root->firstChild;
 
     if (root->firstChild == nullptr)
