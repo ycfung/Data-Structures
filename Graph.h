@@ -73,7 +73,7 @@ public:
     Graph(int vertex, int edge);
 
 
-    ~Graph() = default;
+    ~Graph();
 
     /* Used in destructor */
     bool delAll(int a, int b);
